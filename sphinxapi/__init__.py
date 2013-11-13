@@ -18,6 +18,8 @@ import sys
 import select
 import socket
 import re
+from datetime import datetime
+
 from struct import *
 
 
@@ -747,6 +749,8 @@ class SphinxClient:
                         p -= 4
                     else:
                         match['attrs'][attrs[i][0]] = unpack('>L', response[p:p+4])[0]
+                    if attrs[i][1] == SPH_ATTR_TIMESTAMP:
+                        match['attrs'][attrs[i][0]] = datetime.fromtimestamp(match['attrs'][attrs[i][0]])
                     p += 4
 
                 result['matches'].append ( match )
